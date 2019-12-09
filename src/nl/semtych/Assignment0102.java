@@ -38,7 +38,6 @@ public class Assignment0102 {
         if (l < r)
         {
             int m = (l+r)/2;
-            System.out.println("LENGTEEEEEEE: " + m);
             if (m > 1) {
                 recMinMax(arr, l, m);
                 recMinMax(arr, m + 1, r);
