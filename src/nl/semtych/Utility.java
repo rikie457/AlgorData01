@@ -1,6 +1,13 @@
 package nl.semtych;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
 public class Utility {
+
+    private Instant start, end;
+
 
     /**
      * Generate random integers and fill a array with them
@@ -96,53 +103,7 @@ public class Utility {
         return mergedArray;
     }
 
-    void mergeRec(int arr[], int l, int m, int r)
-    {
-        int n1 = m - l + 1;
-        int n2 = r - m;
-
-        int L[] = new int [n1];
-        int R[] = new int [n2];
-
-        for (int i=0; i<n1; ++i)
-            L[i] = arr[l + i];
-        for (int j=0; j<n2; ++j)
-            R[j] = arr[m + 1+ j];
-
-        int i = 0, j = 0;
-
-        int k = l;
-
-        while (i < n1 && j < n2)
-        {
-            if (L[i] <= R[j])
-            {
-                arr[k] = L[i];
-                i++;
-            }
-            else
-            {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-        while (i < n1)
-        {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        while (j < n2)
-        {
-            arr[k] = R[j];
-            j++;
-            k++;
-        }
-    }
-
-    private int partition(int arr[], int low, int high)
+    private int partition(int[] arr, int low, int high)
     {
         int pivot = arr[high];
         int i = (low-1); // index of smaller element
@@ -173,7 +134,7 @@ public class Utility {
       arr[] --> Array to be sorted,
       low  --> Starting index,
       high  --> Ending index */
-    public void sort(int arr[], int low, int high)
+    public void sort(int[] arr, int low, int high)
     {
         if (low < high)
         {
@@ -186,6 +147,43 @@ public class Utility {
             sort(arr, low, pi-1);
             sort(arr, pi+1, high);
         }
+    }
+
+    public Duration getDuration() throws timerException {
+        if (this.start != null && this.end != null) {
+            return Duration.between(this.start, this.end);
+        }
+        if (this.start != null) {
+            throw new timerException("Timer is still running.");
+        }
+        throw new timerException("Timer is not started.");
+    }
+
+    public String displayTime() {
+        try {
+            Long milliseconds = this.getDuration().toMillis();
+            return String.format("%5d",
+                    TimeUnit.MILLISECONDS.toMillis(milliseconds)
+            );
+
+        } catch (timerException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Start timer.
+     */
+    public void startTimer() {
+        this.start = Instant.now();
+    }
+
+    /**
+     * Stop timer.
+     */
+    public void stopTimer() {
+        this.end = Instant.now();
     }
 
 }
