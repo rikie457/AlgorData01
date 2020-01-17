@@ -8,15 +8,19 @@ public class Opdracht2 {
     public Opdracht2(int amountofnumbers) {
         this.amountofnumbers = amountofnumbers;
         this.util = new Utility();
+    }
+
+    public void run(){
         for (int i = 0; i < 10; i++) {
-            seqMinMax();
+            int[] arr = util.createRandomNumberArray(this.amountofnumbers);
+            seqMinMax(arr);
         }
     }
 
-    public void seqMinMax() {
-        int tempmin = this.amountofnumbers;
+    public int[] seqMinMax(int[] arr) {
+        int tempmin = amountofnumbers;
         int tempmax = 1;
-        int[] arr = util.createRandomNumberArray(this.amountofnumbers);
+
         util.startTimer();
         for (int i = 0; i < arr.length; i++) {
 
@@ -30,5 +34,6 @@ public class Opdracht2 {
         }
         util.stopTimer();
         System.out.println("02: " + this.amountofnumbers + " NUMBERS ARE SORTED IN " + util.displayTime() + " MIN " + tempmin + " MAX " + tempmax);
+        return new int[]{tempmin, tempmax};
     }
 }
